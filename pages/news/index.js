@@ -19,9 +19,9 @@ export default function News({ news }) {
         <h1>News</h1>
 
 
-        {news.length === 0 && <h3>No News</h3>}
+        {news.data.length === 0 && <h3>No News</h3>}
 
-        {news.map((item) =>(
+        {news.data.map((item) =>(
           <NewsItem key={item.id} news = {item}/>
         ) )}
 
@@ -56,12 +56,12 @@ export default function News({ news }) {
 
 export async function getServerSideProps(){
     
-  const res = await fetch("http://localhost:3000/api/news");
+  const res = await fetch("http://localhost:1337/api/footballsports11?populate=*");
   const news = await res.json();
  
-  console.log("AYE")
+  
   return {
-      props : {news },
+      props : {news},
       
   };
 }

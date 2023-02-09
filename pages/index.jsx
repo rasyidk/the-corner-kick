@@ -10,7 +10,7 @@ import NewsItem from '../components/NewsItem'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function HomePage({ news }) {
-  // console.log("news", news.name);
+  console.log("HOMEPAGE", news);
   return (
     <div>
 
@@ -55,12 +55,16 @@ export default function HomePage({ news }) {
 
 export async function getServerSideProps(){
     
-  const res = await fetch("http://localhost:3000/api/news");
-  const news = await res.json();
+  // const res = await fetch("http://localhost:3000/api/news");
+
+  const res = await fetch("http://localhost:1337/api/footballsports11?populate=*");
+
+  const myres = await res.json();
+
  
-  console.log("AYE")
+  // console.log(news)
   return {
-      props : {news : news.slice(0,5)},
+      props : {news : myres.data.slice(0,2)},
       
   };
 }

@@ -1,5 +1,5 @@
 
-const {news} = require('./data.json')
+const {news} = require('./data2.json')
 
 export default (req, res) => {
     const newsArticle =  news.filter((item) => item.slug === req.query.slug);
