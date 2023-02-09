@@ -2,22 +2,23 @@ import React from 'react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '../../components/Layout'
-import styles from '../../styles/Form.module.css'
+import Layout from '../../../components/Layout'
+import styles from '../../../styles/Form.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
   
-export default function AddNews() {
+export default function EditNews({sportNews}) {
+
 
     const [values,setValues] = useState({
-        name:"",
-        detail:"",
-        date:"",
-        time:""
+        name:sportNews.data.attributes.name,
+        detail:sportNews.data.attributes.detail,
+        date:sportNews.data.attributes.date,
+        time:sportNews.data.attributes.time
     })
 
-    const {name,detail,date,time} =values
+    const {name,detail,date,time} = values
 
     const router = useRouter()
 
@@ -34,8 +35,8 @@ export default function AddNews() {
 
         console.log("VAL", values)
 
-        const response = await fetch('http://localhost:1337/api/footballsports11',{
-            method:"POST",
+        const response = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}`,{
+            method:"PUT",
             headers:{
                 "Content-Type": "application/json"
             },
@@ -61,7 +62,7 @@ export default function AddNews() {
   return (
     <Layout title="Add new football news">
         <Link legacyBehavior href="/news">Go Back</Link>
-        <h2>Add football news</h2>
+        <h2>Edit football news</h2>
         <ToastContainer />
         <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.grid}>
@@ -82,7 +83,7 @@ export default function AddNews() {
                     name='date'
                     type='date'
                     id='date'
-                    value={date}
+                    value={moment(date).format("yyyy-MM-DD")}
                     onChange={handleInputChange} 
                     />
                 </div>
@@ -112,8 +113,22 @@ export default function AddNews() {
                     />
                 </div>
 
-            <input className='btn' type='submit' value="Add News"/>
+            <input className='btn' type='submit' value="Edit News"/>
         </form>
     </Layout>
   )
+}
+
+
+export async function getServerSideProps({params: {id}}){
+
+    const res = await fetch(`http://localhost:1337/api/footballsports11/${id}`)
+    const sportNews = await res.json()
+    // console.log(sportNews)
+    return{
+
+        props:{
+            sportNews,
+        }
+    }
 }

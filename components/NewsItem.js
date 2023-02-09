@@ -6,10 +6,15 @@ import moment from 'moment/moment'
 
 export default function NewsItem({news}) {
   console.log("NEWS ITEM",news)
+
+  let img;
+  if(news.attributes.image.data !== null){
+    img =<div className={styles.image}><Image src = {news.attributes.image.data.attributes.url} width={150} height={100} /> </div>;
+  }
   return (
     <div className={styles.news}>
         <div className={styles.img}>
-            <Image src={news.attributes.image.data.attributes.url? news.attributes.image.data.attributes.url : "no image"} width={150} height={100} />
+            {img}
         </div>
         <div className={styles.info}>
                 

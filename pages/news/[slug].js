@@ -6,6 +6,7 @@ import styles from '../../styles/News.module.css'
 import Image from 'next/image';
 import Link from 'next/link';
 import moment from 'moment';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 export default function SigleNews({ news }) {
@@ -15,15 +16,42 @@ export default function SigleNews({ news }) {
     img =<div className={styles.image}><Image src = {news.attributes.image.data.attributes.url} width={900} height={600} /> </div>;
   }
 
+
+  const onDeleteNews = async (e) =>{
+    if(window.confirm("Are You Sure that you wanted to delete news?")){
+      const res = await fetch(`http://localhost:1337/api/footballsports11/${news.id}`,{
+        method:"DELETE"
+      })
+
+      const data = await res.json()
+      if(!res.ok){
+        toast.error(data.error.message)
+      }else{
+        router.push('/news')
+      }
+    }
+  }
+
     const router = useRouter();
     // console.log("route====>", router);
-    console.log("INI NEWSSS", news)
+
+    console.log("ID", news.id);
+   
     return (
     <Layout>
       <div className={styles.news}>
+        <div className={styles.controls}>
+            <Link legacyBehavior href={`/news/edit/${news.id}`}>
+                <button className='btn-edit'>Edit News</button>
+            </Link>
+            <button className='btn-delete' onClick={onDeleteNews}>Delete news</button>
+
+        </div>
+
         <span>{moment(news.attributes.date).format("yyyy-MM-DD")} {news.attributes.time}</span>
-      </div>
+      
       <h1>{news.attributes.name}</h1>
+      <ToastContainer />
       {img}
 
       {/* {news.attributes.image.data.attributes.url && (
@@ -37,6 +65,7 @@ export default function SigleNews({ news }) {
       <Link legacyBehavior href='/news'>
           <a className={styles.back}>Go Back</a>
       </Link>
+      </div>
     </Layout>
   )
 }
