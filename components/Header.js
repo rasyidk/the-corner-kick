@@ -24,6 +24,12 @@ export default function Header() {
                     </Link>
                 </li>
 
+                <li>
+                    <Link legacyBehavior href='/news/add'>
+                        <a>Add</a>
+                    </Link>
+                </li>
+
                
             </ul>
         </nav>

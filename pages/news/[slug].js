@@ -9,6 +9,11 @@ import moment from 'moment';
 
 
 export default function SigleNews({ news }) {
+  console.log("img",news.attributes.image.data)
+  let img;
+  if(news.attributes.image.data !== null){
+    img =<div className={styles.image}><Image src = {news.attributes.image.data.attributes.url} width={900} height={600} /> </div>;
+  }
 
     const router = useRouter();
     // console.log("route====>", router);
@@ -19,11 +24,13 @@ export default function SigleNews({ news }) {
         <span>{moment(news.attributes.date).format("yyyy-MM-DD")} {news.attributes.time}</span>
       </div>
       <h1>{news.attributes.name}</h1>
-      {news.attributes.image.data.attributes.url && (
+      {img}
+
+      {/* {news.attributes.image.data.attributes.url && (
         <div className={styles.image}>
           <Image src = {news.attributes.image.data.attributes.url} width={900} height={600} />
         </div>
-      )}
+      )} */}
 
       <p>{news.attributes.detail}</p>
 
