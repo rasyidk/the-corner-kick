@@ -7,9 +7,14 @@ import styles from '../../../styles/Form.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
-  
+import Modal from '../../../components/Modal'
+import Image from 'next/image'
+import ImageUpload from '../../../components/ImageUpload'
+
+
 export default function EditNews({sportNews}) {
 
+    // console.log("imagee HAHAH",sportNews.data.attributes.image.data.attributes.url)
 
     const [values,setValues] = useState({
         name:sportNews.data.attributes.name,
@@ -17,6 +22,13 @@ export default function EditNews({sportNews}) {
         date:sportNews.data.attributes.date,
         time:sportNews.data.attributes.time
     })
+
+    const [imagePreview, setImagePreview] = useState(
+        sportNews.data.attributes.image.data ? sportNews.data.attributes.image.data.attributes.url : null
+    )
+
+   
+    const [showModal,setShowModal] = useState(false)
 
     const {name,detail,date,time} = values
 
@@ -35,7 +47,7 @@ export default function EditNews({sportNews}) {
 
         console.log("VAL", values)
 
-        const response = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}`,{
+        const response = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}?populate=*`,{
             method:"PUT",
             headers:{
                 "Content-Type": "application/json"
@@ -55,10 +67,18 @@ export default function EditNews({sportNews}) {
         }
     }
 
+    const imageUploaded = async (e) =>{
+        const res = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}`)
+        const data = await res.json()
+        setImagePreview(data.data.attributes.image.data.attributes.url)
+        setShowModal(false)
+    }
+
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setValues({ ...values, [name]: value})
     }
+
   return (
     <Layout title="Add new football news">
         <Link legacyBehavior href="/news">Go Back</Link>
@@ -115,6 +135,24 @@ export default function EditNews({sportNews}) {
 
             <input className='btn' type='submit' value="Edit News"/>
         </form>
+
+        {
+            imagePreview ? (
+                <Image src={imagePreview} height={100} width={180} />
+            ) :(
+                <div>
+                    <p>No image Available</p>
+                </div>
+            )
+        }
+
+        <div>
+            <button onClick={() => setShowModal(true)} className='btn-edit'>Update Image</button>
+        </div>
+
+        <Modal show = {showModal} onClose={() => setShowModal(false)}>
+            <ImageUpload sportNewsId={sportNews.data.id} imageUploaded = {imageUploaded} />
+        </Modal>
     </Layout>
   )
 }
@@ -122,7 +160,7 @@ export default function EditNews({sportNews}) {
 
 export async function getServerSideProps({params: {id}}){
 
-    const res = await fetch(`http://localhost:1337/api/footballsports11/${id}`)
+    const res = await fetch(`http://localhost:1337/api/footballsports11/${id}?populate=*`)
     const sportNews = await res.json()
     // console.log(sportNews)
     return{
