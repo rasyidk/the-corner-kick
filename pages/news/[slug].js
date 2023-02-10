@@ -10,7 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 
 export default function SigleNews({ news }) {
-  console.log("img",news.attributes.image.data)
+ 
   let img;
   if(news.attributes.image.data !== null){
     img =<div className={styles.image}><Image src = {news.attributes.image.data.attributes.url} width={900} height={600} /> </div>;

@@ -7,17 +7,28 @@ import Layout from '../../components/Layout'
 import {API_URL} from '../../config/index.js'
 import NewsItem from '../../components/NewsItem'
 import styles from '../../styles/News.module.css'
+import Pagination from '../../components/Pagination'
 
+const PER_PAGE = 2;
 
-
-export default function News({ news }) {
+export default function News({ news,page , total}) {
   // console.log("news", news.name);
+
+  console.log("total", total)
+
+  
+
   return (
     <div>
 
       <Layout>
-        <h1>News</h1>
 
+        <Link legacyBehavior href='/'>
+          <a className={styles.back}>Go Back</a>
+        </Link>
+
+
+        <h1>News</h1>
 
         {news.data.length === 0 && <h3>No News</h3>}
 
@@ -25,9 +36,8 @@ export default function News({ news }) {
           <NewsItem key={item.id} news = {item}/>
         ) )}
 
-        <Link legacyBehavior href='/'>
-          <a className={styles.back}>Go Back</a>
-        </Link>
+        
+        <Pagination page={page} total={total} />
 
       
         
@@ -54,14 +64,19 @@ export default function News({ news }) {
 
 
 
-export async function getServerSideProps(){
+export async function getServerSideProps({query : {page=1}}){
+
+  const start = +page === 1 ? 0 : (+page - 1) * PER_PAGE 
     
-  const res = await fetch("http://localhost:1337/api/footballsports11?populate=*");
+  const res = await fetch(`http://localhost:1337/api/footballsports11?sort=date%3Adesc&pagination[limit]=${PER_PAGE}&pagination[start]=${start}&populate=*`);
   const news = await res.json();
- 
+
+  const total = news.meta.pagination.total
+  
+  console.log("HAHAHAHAH")
   
   return {
-      props : {news},
+      props : {news, page: +page,total},
       
   };
 }
