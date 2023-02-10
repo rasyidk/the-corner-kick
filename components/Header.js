@@ -2,6 +2,7 @@ import React from 'react'
 import styles from '../styles/Header.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
+import Search from './Search'
 export default function Header() {
   return (
     <header className={styles.header}>
@@ -10,6 +11,7 @@ export default function Header() {
                 <a>The Corner Kick</a>
             </Link>
         </div>
+        <Search />
         <nav>
             <ul>
                 <li>
