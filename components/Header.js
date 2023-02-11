@@ -27,6 +27,12 @@ export default function Header() {
                 </li>
 
                 <li>
+                    <Link legacyBehavior href='/auth/signin'>
+                        <a className='btn-secondary'>Sign in</a>
+                    </Link>
+                </li>
+
+                <li>
                     <Link legacyBehavior href='/news/add'>
                         <a>Add</a>
                     </Link>
