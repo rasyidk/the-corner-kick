@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link'
 import Layout from '../../components/Layout';
 import styles from '../../styles/AuthForm.module.css'
+import AuthContext from '../../context/AuthContext'
 
 
 export default function SignUpPage() {
@@ -13,19 +14,22 @@ export default function SignUpPage() {
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
 
+    const {signup, error} = useContext(AuthContext)
+
     const handleSubmit = (e) =>{
         e.preventDefault();
         if(password !== passwordConfirm){
             toast.error("Password do not match")
             return;
         }
+        signup({username,email, password})
     }
   return (
     <Layout title='Sign Up'>
         <div className={styles.auth}>
             <h1><FaUser />Sign Up</h1>
         
-        <ToastContainer />
+        
 
         <form onSubmit={handleSubmit}>
             <div>

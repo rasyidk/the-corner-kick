@@ -6,13 +6,22 @@ import Link from 'next/link'
 import Layout from '../../components/Layout';
 import styles from '../../styles/AuthForm.module.css'
 
-import AuthContext from '../context/AuthContext'
+import AuthContext from '../../context/AuthContext'
 
 export default function SignInPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     const {signin,error} = useContext(AuthContext)
+
+    useEffect(() => {
+        error && toast.error(error)
+    },[error]);
+
+
+  
+
+
     const handleSubmit = (e) =>{
         e.preventDefault()
         signin({email, password})
@@ -22,9 +31,10 @@ export default function SignInPage() {
         <div className={styles.auth}>
             <h1><FaUser />Sign In</h1>
         
-        <ToastContainer />
+        
 
         <form onSubmit={handleSubmit}>
+        <ToastContainer />
             <div>
                 <label htmlFor='email'>Email</label>
                 <input
@@ -40,7 +50,7 @@ export default function SignInPage() {
                     type='password'
                     value={password}
                     id="password"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
             <input type='submit' value='sign in' className='btn'/>

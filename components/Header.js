@@ -13,7 +13,7 @@ export default function Header() {
     
     const {user, signout} = useContext(AuthContext)
 
-    console.log("HHEHEH", user)
+    // console.log("HHEHEH", user)
   return (
     <header className={styles.header}>
         <div className={styles.logo}>
@@ -44,6 +44,10 @@ export default function Header() {
                                    <a>Dashboard</a>
                                </Link>
                            </li>
+
+                           <button className='btn-secondary' onClick={() => signout()}>
+                            Sign Out
+                           </button>
                        </>
                        
                        ) : (
