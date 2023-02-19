@@ -158,7 +158,8 @@ export default function EditNews({sportNews}) {
 }
 
 
-export async function getServerSideProps({params: {id}}){
+export async function getServerSideProps({params: {id}, req}){
+    console.log("COOKIE",req.headers.cookie)
 
     const res = await fetch(`http://localhost:1337/api/footballsports11/${id}?populate=*`)
     const sportNews = await res.json()

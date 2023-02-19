@@ -1,5 +1,5 @@
 import {FaUser } from 'react-icons/fa'
-import React, {useState,useEffect, useContext} from 'react'
+import React, {useState,useEffect, useContext, useFocusEffect} from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Link from 'next/link'
@@ -7,6 +7,8 @@ import Layout from '../../components/Layout';
 import styles from '../../styles/AuthForm.module.css'
 
 import AuthContext from '../../context/AuthContext'
+
+
 
 export default function SignInPage() {
     const [email, setEmail] = useState("")
@@ -18,9 +20,15 @@ export default function SignInPage() {
         error && toast.error(error)
     },[error]);
 
-
+    // useEffect(() => {
+    //     console.log(error);
+    // });
   
 
+    // useEffect(() => {
+    //     console.log("error");
+    // })
+    
 
     const handleSubmit = (e) =>{
         e.preventDefault()

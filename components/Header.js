@@ -11,7 +11,7 @@ import AuthContext from '../context/AuthContext'
 
 export default function Header() {
     
-    const {user, signout} = useContext(AuthContext)
+const {user, signout} = useContext(AuthContext)
 
     // console.log("HHEHEH", user)
   return (

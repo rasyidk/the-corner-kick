@@ -16,13 +16,29 @@ export default function SignUpPage() {
 
     const {signup, error} = useContext(AuthContext)
 
+    useEffect(() => {
+        error && toast.error(error)
+    },[error]);
+
+    
+
     const handleSubmit = (e) =>{
         e.preventDefault();
-        if(password !== passwordConfirm){
-            toast.error("Password do not match")
-            return;
+
+        if(userName === "" || email === "" || password === "" || passwordConfirm === ""){
+            toast.error("Please fill all field!")
+        }else{
+            if(password !== passwordConfirm){
+                toast.error("Password do not match")
+                console.log("Password do not match!")
+                return;
+            }else{
+                signup({userName,email, password})
+                // toast.error("register!")
+            }
+            
         }
-        signup({username,email, password})
+        
     }
   return (
     <Layout title='Sign Up'>
@@ -30,7 +46,7 @@ export default function SignUpPage() {
             <h1><FaUser />Sign Up</h1>
         
         
-
+            <ToastContainer />
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor='username'>Username</label>
