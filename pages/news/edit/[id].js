@@ -10,9 +10,9 @@ import moment from 'moment'
 import Modal from '../../../components/Modal'
 import Image from 'next/image'
 import ImageUpload from '../../../components/ImageUpload'
+import { parseCookies } from '../../../utils/index'
 
-
-export default function EditNews({sportNews}) {
+export default function EditNews({sportNews,token,  backend_url, frontend_url}) {
 
     // console.log("imagee HAHAH",sportNews.data.attributes.image.data.attributes.url)
 
@@ -47,16 +47,30 @@ export default function EditNews({sportNews}) {
 
         console.log("VAL", values)
 
-        const response = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}?populate=*`,{
+        // const response = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}?populate=*`,{
+        //     method:"PUT",
+        //     headers:{
+        //         "Content-Type": "application/json"
+        //     },
+        //     body:JSON.stringify({
+        //         'data': values 
+        //     })
+
+        // })
+
+        
+        const response = await fetch(`${backend_url}/api/footballsports11/${sportNews.data.id}`,{
             method:"PUT",
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization : `Bearer ${token}`
             },
             body:JSON.stringify({
                 'data': values 
             })
 
         })
+
 
         if(!response.ok){
             toast.error("Something went wrong")
@@ -68,6 +82,7 @@ export default function EditNews({sportNews}) {
     }
 
     const imageUploaded = async (e) =>{
+        console.log("uplaoded image")
         const res = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}`)
         const data = await res.json()
         setImagePreview(data.data.attributes.image.data.attributes.url)
@@ -160,14 +175,19 @@ export default function EditNews({sportNews}) {
 
 export async function getServerSideProps({params: {id}, req}){
     console.log("COOKIE",req.headers.cookie)
+    const {token} = parseCookies(req)
 
-    const res = await fetch(`http://localhost:1337/api/footballsports11/${id}?populate=*`)
+    const backend_url = process.env.BACKEND_URL
+    const frontend_url = process.env.FRONTEND_URL
+
+    const res = await fetch(`${backend_url}/api/footballsports11/${id}?populate=*`)
     const sportNews = await res.json()
     // console.log(sportNews)
     return{
 
         props:{
-            sportNews,
+            sportNews, token, backend_url, frontend_url
         }
     }
 }
+

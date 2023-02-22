@@ -2,8 +2,36 @@ import Link from "next/link";
 
 import React from 'react'
 import styles from '../styles/NewsDashboard.module.css'
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 
-export default function NewsDashboard({news, handleDelete}) {
+export default function NewsDashboard({news, token}) {
+
+  const router = useRouter()
+
+  const onDeleteNews = async (e) =>{
+    if(window.confirm("Are You Sure that you wanted to delete news?")){
+      const res = await fetch(`http://localhost:1337/api/footballsports11/${news.id}`,{
+        method: 'DELETE',
+        headers:{
+          "Content-Type": "application/json",
+          Authorization : `Bearer ${token}`
+      },
+      })
+
+      const data = await res.json()
+
+      console.log("res,", data)
+      if(!res.ok){
+        toast.error(data.error.message)
+      }else{
+        router.push('/auth/dashboard')
+      }
+    }
+  }
+
+
   return (
     <div className={styles.news}>
       <h4>
@@ -15,7 +43,7 @@ export default function NewsDashboard({news, handleDelete}) {
         <button className="btn-edit">Edit News</button>
       </Link>
 
-      <button className="btn-delete" onClick={() => handleDelete(news.id)}>
+      <button className="btn-delete" onClick={onDeleteNews}>
             Delete News
       </button>
     </div>

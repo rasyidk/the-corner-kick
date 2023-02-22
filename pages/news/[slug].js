@@ -7,10 +7,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import moment from 'moment';
 import { toast, ToastContainer } from 'react-toastify';
+import { parseCookies } from '../../utils/index'
 
+export default function SigleNews({ news  }) {
 
-export default function SigleNews({ news }) {
- 
   let img;
   if(news.attributes.image.data !== null){
     img =<div className={styles.image}><Image src = {news.attributes.image.data.attributes.url} width={900} height={600} /> </div>;
@@ -40,13 +40,13 @@ export default function SigleNews({ news }) {
     return (
     <Layout>
       <div className={styles.news}>
-        <div className={styles.controls}>
+        {/* <div className={styles.controls}>
             <Link legacyBehavior href={`/news/edit/${news.id}`}>
                 <button className='btn-edit'>Edit News</button>
             </Link>
             <button className='btn-delete' onClick={onDeleteNews}>Delete news</button>
 
-        </div>
+        </div> */}
 
         <span>{moment(news.attributes.date).format("yyyy-MM-DD")} {news.attributes.time}</span>
       
@@ -78,7 +78,8 @@ export default function SigleNews({ news }) {
 export async function getStaticPaths(){
   const res = await fetch("http://localhost:1337/api/footballsports11");
   const news = await res.json()
-  console.log("NEWS", news.data.attributes)
+
+
   const paths = news.data.map((item)=> (
     
     {
@@ -88,12 +89,16 @@ export async function getStaticPaths(){
 
   return{
     paths,
-    fallback:true
+    fallback:true,
+    
   }
 }
 
 
 export async function getStaticProps({params:{slug}}){
+  
+  // console.log("token", token)
+ 
   const res = await fetch(`http://localhost:1337/api/footballsports11?filters[slug][$eq]=${slug}&populate=*`)
   const singleNews = await res.json();
   console.log("SINGLENWS", singleNews.data)
@@ -106,7 +111,25 @@ export async function getStaticProps({params:{slug}}){
 }
 
 
-
+// export async function getServerSideProps({req}){
+//   // const router = useRouter()
+//   // const { pid } = router.query
+//   // const  {slug}  = context.query;
+//   const {token} = parseCookies(req)
+//   const res = await fetch(`http://localhost:1337/api/footballsports11?filters[slug][$eq]=name-xxxxxx-252526262&populate=*`)
+//   const singleNews = await res.json();
+//   console.log("token", token)
+//   console.log("SINGLENWS", singleNews.data)
+//   return{
+//     props : {
+//       news: singleNews.data[0]
+//     },
+//   }
+//   // const {token} = parseCookies(req)
+//   // return{
+//   //     props : { token }
+//   // }
+// }
 
 
 

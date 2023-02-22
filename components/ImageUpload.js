@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React,{useState} from 'react'
 import styles from '../styles/Form.module.css'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function ImageUpload({sportNewsId,imageUploaded}) {
 
     console.log("sportNewsId",sportNewsId)
     const [image, setImage] =useState(null)
     const handleSubmit = async (e) =>{
+      
         e.preventDefault();
         const formData = new FormData()
         formData.append("files", image)
@@ -31,7 +33,18 @@ export default function ImageUpload({sportNewsId,imageUploaded}) {
         });
 
         const data = await uploadResponse.json()
-        console.log(data)
+        console.log( "DATAKY",data)
+
+        console.log('status', uploadResponse.status)
+
+        if(uploadResponse.status === 200){
+            toast.success("uploaded succesfully")
+        }
+        // if(data.statu){
+        //     console.log( "HEHE")
+        // }else{
+        //     console.log( "OK")
+        // }
 
 
         // const STRAPI_BASE_URL = 'http://localhost:1337';
@@ -50,6 +63,7 @@ export default function ImageUpload({sportNewsId,imageUploaded}) {
 
     const handleFileChange =(e) =>{
         // console.log(e.target.files)
+        
         setImage(e.target.files[0])
     }
   return (
@@ -58,7 +72,6 @@ export default function ImageUpload({sportNewsId,imageUploaded}) {
         <form onSubmit={handleSubmit}>
             <div className={styles.file}>
                 <input type='file' onChange={handleFileChange}/>
-
             </div>
             <input type='submit' value='upload' className='btn' />
         </form>

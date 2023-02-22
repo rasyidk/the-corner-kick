@@ -5,13 +5,10 @@ import { parseCookies } from '../../utils'
 import {styles} from '../../styles/Dashboard.module.css'
 import NewsDashboard from '../../components/NewsDashboard'
 
-export default function dashboard({news}) {
+export default function dashboard({news , token}) {
 
-  const deleteNews = () =>{
-    
-  }
+  
 
-  console.log("news", news)
   return (
     <Layout title="Dashboard">
       <div>
@@ -22,7 +19,8 @@ export default function dashboard({news}) {
             <NewsDashboard 
             key={item.id}
             news = {item}
-            handleDelete={deleteNews}
+            // handleDelete={deleteNews}
+            token = {token}
             />
           ))
         }
@@ -36,7 +34,12 @@ export async function getServerSideProps({req}){
   const {token} = parseCookies(req)
 
   console.log("token", token)
-  const res =  await fetch(`http://localhost:1337/api/footballsports11/me`,{
+  
+  const backend_url = process.env.BACKEND_URL
+  const frontend_url = process.env.FRONTEND_URL
+
+
+  const res =  await fetch(`${backend_url}/api/footballsports11/me`,{
     method:"GET",
     headers :{
       Authorization : `Bearer ${token}`
@@ -47,7 +50,7 @@ export async function getServerSideProps({req}){
 
   console.log("NEWS", news)
   return {
-    props : { news }
+    props : { news , token }
   }
 
 }

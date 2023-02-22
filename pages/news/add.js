@@ -7,8 +7,9 @@ import styles from '../../styles/Form.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
+import { parseCookies } from '../../utils/index'
   
-export default function AddNews() {
+export default function AddNews({token}) {
 
     const [values,setValues] = useState({
         name:"",
@@ -37,7 +38,8 @@ export default function AddNews() {
         const response = await fetch('http://localhost:1337/api/footballsports11',{
             method:"POST",
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization : `Bearer ${token}`
             },
             body:JSON.stringify({
                 'data': values 
@@ -46,10 +48,15 @@ export default function AddNews() {
         })
 
         if(!response.ok){
+            if(response.status === "403" || response.status === "401"){
+                toast.error("No Token Provided")
+                return;
+            } 
             toast.error("Something went wrong")
         }else{
             const sport = await response.json()
             console.log("SPORT",sport.data.attributes.slug)
+            console.log("ms", sport)
             router.push(`/news/${sport.data.attributes.slug}`)
         }
     }
@@ -116,4 +123,13 @@ export default function AddNews() {
         </form>
     </Layout>
   )
+}
+
+
+export async function getServerSideProps({req}){
+    const {token} = parseCookies(req)
+
+    return{
+        props : { token }
+    }
 }
