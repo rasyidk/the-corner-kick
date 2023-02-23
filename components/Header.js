@@ -27,7 +27,7 @@ const [show,setShow] = useState(false)
             </a>
         </div>
         
-        <nav className={styles.navbar} >
+        <nav className={styles.navbar}  style={''}>
             
             <ul>
                     <li>
