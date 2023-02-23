@@ -10,12 +10,12 @@ import NewsItem from '../components/NewsItem'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function HomePage({ news }) {
-  console.log("HOMEPAGE", news);
+  
   return (
-    <div>
+    <div className={styles.bg}>
 
       <Layout>
-        <h1>Latest Newsx</h1>
+        <h1 className={styles.h1}>Latest News</h1>
 
 
         {news.length === 0 && <h3>No News</h3>}

@@ -18,7 +18,8 @@ export default function SigleNews({ news}) {
 
   let img;
   if(news.attributes.image.data !== null){
-    img =<div className={styles.image}><Image src = {news.attributes.image.data.attributes.url} width={900} height={600} /> </div>;
+    img =<Image src = {news.attributes.image.data.attributes.url} fill style={{objectFit:"cover"}}/> ;
+    // img =<Image src = {news.attributes.image.data.attributes.url} fill style={{objectFit:"cover"}}/> ;
   }
 
     const router = useRouter();
@@ -40,7 +41,9 @@ export default function SigleNews({ news}) {
       
       <h1>{news.attributes.name}</h1>
       <ToastContainer />
-      {img}
+      <div className={styles.img}>
+            {img}
+        </div>
 
       {/* {news.attributes.image.data.attributes.url && (
         <div className={styles.image}>

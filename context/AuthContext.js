@@ -14,7 +14,7 @@ export const AuthProvider = ({children}) =>{
 
     useEffect(() => {
         const checkUserLoggedIn = async (user) =>{
-            console.log('check')
+            
     
             const res = await fetch(`${NEXT_URL}/api/user`)
             const data = await res.json()
@@ -57,22 +57,18 @@ export const AuthProvider = ({children}) =>{
         // })
    
         const data = await res.json()
-        // setError("XXXX")
-        console.log("execute", data)
-        console.log("res", res.status)
+        
         if (res.status === 200){
             setUser(data.user)
-            console.log("sukses login")
             router.push('/auth/dashboard')
         }else{
-            console.log("gagal login")
-            setError("error bang")
+           
+            setError("error!")
         }
     }
 
     const signin = async ({email:identifier,password}) =>{
-        console.log({identifier, password})
-        console.log("NGERRUUUNNNNNNNNNNN")
+        
         const res = await fetch(`http://localhost:3000/api/signin`,{
             method:"POST",
             headers:{
@@ -85,15 +81,14 @@ export const AuthProvider = ({children}) =>{
         })
 
         const data = await res.json()
-        // setError("XXXX")
-        console.log("execute", res.status)
+       
 
         if (res.status !== 400){
             setUser(data.user)
-            console.log("sukses login")
+           
             router.push('/auth/dashboard')
         }else{
-            console.log("gagal login")
+            
             setError("error bang")
             // setError(data.error.message)
         }
@@ -115,7 +110,7 @@ export const AuthProvider = ({children}) =>{
     
 
     const signout = async () =>{
-        console.log("signout")
+       
         const res = await fetch(`${NEXT_URL}/api/signout`,{
             method: "POST"
         })

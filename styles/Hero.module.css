@@ -1,7 +1,7 @@
 .hero {
-  height: 300px;
+  height: 450px;
   width: 100%;
-  background: #000 url("/images/hero.jpg") no-repeat center center;
+  background: #000 url("/images/messi.jpg") no-repeat center center;
   color: #fff;
   position: relative;
   display: flex;

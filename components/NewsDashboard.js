@@ -34,18 +34,24 @@ export default function NewsDashboard({news, token}) {
 
   return (
     <div className={styles.news}>
-      <h4>
-        <Link legacyBehavior href={`/news/${news.slug}`}>
-            <a>{news.name}</a>
+      <div className={styles.newsitem}>
+        <div>
+        <h4>
+          <Link legacyBehavior href={`/news/${news.slug}`}>
+              <a>{news.name}</a>
+          </Link>
+        </h4>
+        </div>
+        <div>
+        <Link href={`/news/edit/${news.id}`}>
+          <button className="btn-edit">Edit News</button>
         </Link>
-      </h4>
-      <Link href={`/news/edit/${news.id}`}>
-        <button className="btn-edit">Edit News</button>
-      </Link>
 
-      <button className="btn-delete" onClick={onDeleteNews}>
-            Delete News
-      </button>
+        <button className="btn-delete" onClick={onDeleteNews}>
+              Delete News
+        </button>
+        </div>
+      </div>
     </div>
   )
 }

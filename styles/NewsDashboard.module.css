@@ -2,14 +2,25 @@
   margin: 10px 0;
   padding: 10px;
   border-radius: 5px;
-  border: 1px #ddd solid;
-  background-color: #f4f4f4;
+  /* border: 1px #ddd solid; */
+  background-color: #EFF2F3;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
+  justify-content: center;
 }
 
 .news h4 {
   margin-bottom: 10px;
   flex: 2;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .newsitem{
+    flex-direction: row;
+    justify-content: center;
+    margin: auto;
+  }
 }
