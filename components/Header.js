@@ -4,16 +4,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Search from './Search'
 import { useContext } from 'react'
-
+import '../styles/Header.module.css'
 import AuthContext from '../context/AuthContext'
 
 
 
 export default function Header() {
-    
+
+     
 const {user, signout} = useContext(AuthContext)
 const [show,setShow] = useState(false)
-
 
   return (
     <header className={styles.header}>
@@ -27,7 +27,7 @@ const [show,setShow] = useState(false)
             </a>
         </div>
         
-        <nav className={styles.navbar}  style={''}>
+        <nav className={styles.navbar && show?styles.show:styles.hide}>
             
             <ul>
                     <li>

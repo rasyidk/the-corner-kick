@@ -51,15 +51,15 @@
 @media (max-width: 768px) {
   .show{
     display: block;
+    width: 100%;
+    text-align: center;
   }
   .hide{
+    width: 100%;
     display: none;
 
   }
-  .navbar{
-    display: none;
-    /* transform: translateY(-1000px); */
-  }
+
   .header {
     flex-direction: column;
     height: auto;
