@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import Link from 'next/link'
 import Layout from '../../components/Layout'
-import {API_URL} from '../../config/index.js'
+import {API_URL, NEXT_URL} from '../../config/index.js'
 import NewsItem from '../../components/NewsItem'
 import styles from '../../styles/News.module.css'
 
@@ -12,9 +12,8 @@ import {useRouter} from 'next/router'
 
 
 export default function Search({ news }) {
-  // console.log("news", news.name);
-
-    const router = useRouter()
+ 
+  const router = useRouter()
 
   return (
     <div>
@@ -45,9 +44,9 @@ export default function Search({ news }) {
 
 export async function getServerSideProps({query:{term}}){
 
-    // http://localhost:3000/news/search?term=peh
+   
     
-  const res = await fetch(`http://localhost:1337/api/footballsports11?filters[$or][0][name][$contains]=${term}&filters[$or][1][detail][$contains]=${term}&populate=*`);
+  const res = await fetch(`${API_URL}/api/footballsports11?filters[$or][0][name][$contains]=${term}&filters[$or][1][detail][$contains]=${term}&populate=*`);
   const news = await res.json();
  
   

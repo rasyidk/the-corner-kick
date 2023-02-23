@@ -5,7 +5,7 @@ import Link from 'next/link'
 import moment from 'moment/moment'
 
 export default function NewsItem({news}) {
-  console.log("NEWS ITEM",news)
+ 
 
   let img;
   if(news.attributes.image.data !== null){

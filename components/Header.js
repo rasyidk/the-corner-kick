@@ -13,7 +13,7 @@ export default function Header() {
     
 const {user, signout} = useContext(AuthContext)
 
-    // console.log("HHEHEH", user)
+
   return (
     <header className={styles.header}>
         <div className={styles.logo}>

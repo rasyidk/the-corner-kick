@@ -5,14 +5,14 @@ import styles from '../styles/NewsDashboard.module.css'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
-
+import {API_URL, NEXT_URL} from '../config'
 export default function NewsDashboard({news, token}) {
 
   const router = useRouter()
 
   const onDeleteNews = async (e) =>{
     if(window.confirm("Are You Sure that you wanted to delete news?")){
-      const res = await fetch(`http://localhost:1337/api/footballsports11/${news.id}`,{
+      const res = await fetch(`${API_URL}/api/footballsports11/${news.id}`,{
         method: 'DELETE',
         headers:{
           "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export default function NewsDashboard({news, token}) {
 
       const data = await res.json()
 
-      console.log("res,", data)
+      
       if(!res.ok){
         toast.error(data.error.message)
       }else{

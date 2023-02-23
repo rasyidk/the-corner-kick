@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import Link from 'next/link'
 import Layout from '../../components/Layout'
-import {API_URL} from '../../config/index.js'
+import { API_URL, NEXT_URL } from '../../config';
 import NewsItem from '../../components/NewsItem'
 import styles from '../../styles/News.module.css'
 import Pagination from '../../components/Pagination'
@@ -12,12 +12,7 @@ import Pagination from '../../components/Pagination'
 const PER_PAGE = 2;
 
 export default function News({ news,page , total}) {
-  // console.log("news", news.name);
-
-  console.log("total", total)
-
-  
-
+ 
   return (
     <div>
 
@@ -68,12 +63,12 @@ export async function getServerSideProps({query : {page=1}}){
 
   const start = +page === 1 ? 0 : (+page - 1) * PER_PAGE 
     
-  const res = await fetch(`http://localhost:1337/api/footballsports11?sort=date%3Adesc&pagination[limit]=${PER_PAGE}&pagination[start]=${start}&populate=*`);
+  const res = await fetch(`${API_URL}/api/footballsports11?sort=date%3Adesc&pagination[limit]=${PER_PAGE}&pagination[start]=${start}&populate=*`);
   const news = await res.json();
 
   const total = news.meta.pagination.total
   
-  console.log("HAHAHAHAH")
+ 
   
   return {
       props : {news, page: +page,total},

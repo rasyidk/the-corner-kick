@@ -3,6 +3,8 @@ import React,{useState} from 'react'
 import styles from '../styles/Form.module.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import {API_URL, NEXT_URL} from '../config'
 export default function ImageUpload({sportNewsId,imageUploaded}) {
 
     console.log("sportNewsId",sportNewsId)
@@ -16,54 +18,22 @@ export default function ImageUpload({sportNewsId,imageUploaded}) {
         formData.append("refId", sportNewsId)
         formData.append("field", "image")
 
-        // const res = await fetch('http://localhost:1337/api/upload',{
-        // method:"POST",
-        // body: formData
-        // })
-
-
-
-        // if(res.ok){
-        //     imageUploaded()
-        // }
-
-        const uploadResponse = await fetch("http://localhost:1337/api/upload/", { 
+        const uploadResponse = await fetch(`${API_URL}/api/upload/`, { 
             method: 'POST',
             body: formData
         });
 
         const data = await uploadResponse.json()
-        console.log( "DATAKY",data)
-
-        console.log('status', uploadResponse.status)
+      
 
         if(uploadResponse.status === 200){
             toast.success("uploaded succesfully")
         }
-        // if(data.statu){
-        //     console.log( "HEHE")
-        // }else{
-        //     console.log( "OK")
-        // }
-
-
-        // const STRAPI_BASE_URL = 'http://localhost:1337';
-
-        // const formData = new FormData()
-        // formData.append('files', image)
-        // formData.append('ref', 'footballsports1') // optional, you need it if you want to link the image to an entry
-        // formData.append('refId', 1) // optional, you need it if you want to link the image to an entry
-        // formData.append('field', 'image') // optional, you need it if you want to link the image to an entry
-
-        // axios.post(`${STRAPI_BASE_URL}/api/upload`, formData)
+       
     }
-
-    
 
 
     const handleFileChange =(e) =>{
-        // console.log(e.target.files)
-        
         setImage(e.target.files[0])
     }
   return (

@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
 import { parseCookies } from '../../utils/index'
+import { API_URL, NEXT_URL } from '../../config';
   
 export default function AddNews({token}) {
 
@@ -23,7 +24,7 @@ export default function AddNews({token}) {
     const router = useRouter()
 
     const handleSubmit = async (e) => {
-        console.log("SUBMIT")
+       
         e.preventDefault();
         const emptyFieldCheck = Object.values(values).some(
             (element) => element ===""
@@ -33,9 +34,9 @@ export default function AddNews({token}) {
             toast.error("Please fill all input field!")
         }
 
-        console.log("VAL", values)
+       
 
-        const response = await fetch('http://localhost:1337/api/footballsports11',{
+        const response = await fetch(`${API_URL}/api/footballsports11`,{
             method:"POST",
             headers:{
                 "Content-Type": "application/json",
@@ -55,8 +56,7 @@ export default function AddNews({token}) {
             toast.error("Something went wrong")
         }else{
             const sport = await response.json()
-            console.log("SPORT",sport.data.attributes.slug)
-            console.log("ms", sport)
+            
             router.push(`/news/${sport.data.attributes.slug}`)
         }
     }

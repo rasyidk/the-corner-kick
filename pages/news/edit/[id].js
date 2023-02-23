@@ -11,10 +11,10 @@ import Modal from '../../../components/Modal'
 import Image from 'next/image'
 import ImageUpload from '../../../components/ImageUpload'
 import { parseCookies } from '../../../utils/index'
+import { API_URL, NEXT_URL } from '../../../config';
+export default function EditNews({sportNews,token}) {
 
-export default function EditNews({sportNews,token,  backend_url, frontend_url}) {
 
-    // console.log("imagee HAHAH",sportNews.data.attributes.image.data.attributes.url)
 
     const [values,setValues] = useState({
         name:sportNews.data.attributes.name,
@@ -35,7 +35,7 @@ export default function EditNews({sportNews,token,  backend_url, frontend_url}) 
     const router = useRouter()
 
     const handleSubmit = async (e) => {
-        console.log("SUBMIT")
+     
         e.preventDefault();
         const emptyFieldCheck = Object.values(values).some(
             (element) => element ===""
@@ -45,21 +45,10 @@ export default function EditNews({sportNews,token,  backend_url, frontend_url}) 
             toast.error("Please fill all input field!")
         }
 
-        console.log("VAL", values)
-
-        // const response = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}?populate=*`,{
-        //     method:"PUT",
-        //     headers:{
-        //         "Content-Type": "application/json"
-        //     },
-        //     body:JSON.stringify({
-        //         'data': values 
-        //     })
-
-        // })
+    
 
         
-        const response = await fetch(`${backend_url}/api/footballsports11/${sportNews.data.id}`,{
+        const response = await fetch(`${API_URL}/api/footballsports11/${sportNews.data.id}`,{
             method:"PUT",
             headers:{
                 "Content-Type": "application/json",
@@ -76,14 +65,12 @@ export default function EditNews({sportNews,token,  backend_url, frontend_url}) 
             toast.error("Something went wrong")
         }else{
             const sport = await response.json()
-            console.log("SPORT",sport.data.attributes.slug)
             router.push(`/news/${sport.data.attributes.slug}`)
         }
     }
 
     const imageUploaded = async (e) =>{
-        console.log("uplaoded image")
-        const res = await fetch(`http://localhost:1337/api/footballsports11/${sportNews.data.id}`)
+        const res = await fetch(`${API_URL}/api/footballsports11/${sportNews.data.id}`)
         const data = await res.json()
         setImagePreview(data.data.attributes.image.data.attributes.url)
         setShowModal(false)
@@ -174,19 +161,18 @@ export default function EditNews({sportNews,token,  backend_url, frontend_url}) 
 
 
 export async function getServerSideProps({params: {id}, req}){
-    console.log("COOKIE",req.headers.cookie)
+  
     const {token} = parseCookies(req)
 
-    const backend_url = process.env.BACKEND_URL
-    const frontend_url = process.env.FRONTEND_URL
+    
 
-    const res = await fetch(`${backend_url}/api/footballsports11/${id}?populate=*`)
+    const res = await fetch(`${API_URL}/api/footballsports11/${id}?populate=*`)
     const sportNews = await res.json()
-    // console.log(sportNews)
+
     return{
 
         props:{
-            sportNews, token, backend_url, frontend_url
+            sportNews, token
         }
     }
 }

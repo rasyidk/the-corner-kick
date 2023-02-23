@@ -8,35 +8,23 @@ import Link from 'next/link';
 import moment from 'moment';
 import { toast, ToastContainer } from 'react-toastify';
 import { parseCookies } from '../../utils/index'
+// const backend_url = process.env.BACKEND_URL
+// const frontend_url = process.env.FRONTEND_URL
 
-export default function SigleNews({ news  }) {
+
+
+
+export default function SigleNews({ news}) {
 
   let img;
   if(news.attributes.image.data !== null){
     img =<div className={styles.image}><Image src = {news.attributes.image.data.attributes.url} width={900} height={600} /> </div>;
   }
 
-
-  const onDeleteNews = async (e) =>{
-    if(window.confirm("Are You Sure that you wanted to delete news?")){
-      const res = await fetch(`http://localhost:1337/api/footballsports11/${news.id}`,{
-        method:"DELETE"
-      })
-
-      const data = await res.json()
-      if(!res.ok){
-        toast.error(data.error.message)
-      }else{
-        router.push('/news')
-      }
-    }
-  }
-
     const router = useRouter();
-    // console.log("route====>", router);
 
-    console.log("ID", news.id);
-   
+
+     
     return (
     <Layout>
       <div className={styles.news}>
@@ -73,10 +61,8 @@ export default function SigleNews({ news  }) {
 
 
 
-
-
 export async function getStaticPaths(){
-  const res = await fetch("http://localhost:1337/api/footballsports11");
+  const res = await fetch(`${API_URL}/api/footballsports11`);
   const news = await res.json()
 
 
@@ -97,11 +83,11 @@ export async function getStaticPaths(){
 
 export async function getStaticProps({params:{slug}}){
   
-  // console.log("token", token)
  
-  const res = await fetch(`http://localhost:1337/api/footballsports11?filters[slug][$eq]=${slug}&populate=*`)
+ 
+  const res = await fetch(`${API_URL}/api/footballsports11?filters[slug][$eq]=${slug}&populate=*`)
   const singleNews = await res.json();
-  console.log("SINGLENWS", singleNews.data)
+ 
   return{
     props : {
       news: singleNews.data[0]
