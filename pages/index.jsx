@@ -15,7 +15,7 @@ export default function HomePage({ news }) {
     <div className={styles.bg}>
 
       <Layout>
-        <h1 className={styles.h1}>Latest News</h1>
+        <h1 className={styles.h1}>Transfer News</h1>
 
 
         {news.length === 0 && <h3>No News</h3>}
